@@ -18,19 +18,18 @@ export default function Auth() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) return;
+    if (!email.trim() || !password) return;
 
     setLoading(true);
     try {
       if (isLogin) {
         await login(email.trim(), password);
         toast({ title: "Welcome back!" });
-        navigate("/vote");
+        navigate("/vote", { replace: true });
       } else {
-        // SIGNUP — NOW FULLY WORKING
         await login(email.trim(), password, "signup");
         toast({ title: "Account created!", description: "You can now vote." });
-        navigate("/vote");
+        navigate("/vote", { replace: true });
       }
     } catch (err: any) {
       toast({
@@ -81,7 +80,7 @@ export default function Auth() {
                   <Input
                     id="password"
                     type="password"
-                    placeholder="••••••••"
+                    placeholder="6+ characters"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-10"
